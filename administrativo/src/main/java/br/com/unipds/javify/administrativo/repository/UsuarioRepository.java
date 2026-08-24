@@ -7,11 +7,26 @@ import jakarta.data.repository.Query;
 import jakarta.data.repository.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
 
-    @Query("select u from Usuario u where u.titular = true")
+    @Query("select u from Usuario u " +
+            "left join fetch u.endereco " +
+            "left join fetch u.assinatura a " +
+            "left join fetch a.plano " +
+            "order by u.id")
+    List<Usuario> listarComRelacionamentos();
+
+    @Query("select u from Usuario u " +
+            "left join fetch u.endereco " +
+            "left join fetch u.assinatura a " +
+            "left join fetch a.plano " +
+            "where u.id = :id")
+    Optional<Usuario> buscarComRelacionamentos(Long id);
+
+    @Query("select u from Usuario u where u.titular = true order by u.id")
     List<Usuario> findByTitularTrue();
 
     @Query("select u from Usuario u WHERE LOWER(u.nome) LIKE LOWER(CONCAT('%', :termo, '%')) Order by u.nome")

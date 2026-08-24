@@ -33,4 +33,5 @@ Este projeto tem como objetivo desenvolver uma plataforma completa de streaming 
 - **Banco de Dados**: PostgreSQL 16
 - **Backend**: Java (Quarkus)
 - **Persistência**: Jakarta Data (Hibernate Data Repositories) sobre Hibernate ORM
+- **Migrações**: Liquibase
 - **Orquestração**: Docker & Docker Compose

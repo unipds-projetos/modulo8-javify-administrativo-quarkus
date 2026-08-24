@@ -12,13 +12,23 @@ import java.util.Optional;
 public interface AssinaturaRepository extends CrudRepository<Assinatura, Integer> {
 
     @Query("select a from Assinatura a " +
-            "join fetch a.plano")
+            "join fetch a.plano " +
+            "order by a.id")
     List<Assinatura> buscarAssinaturasComPlano();
 
-    // Repositorio Jakarta Data e apoiado por StatelessSession: nao ha lazy loading
-    // depois da consulta, entao a colecao de cartoes vem por join fetch.
     @Query("select a from Assinatura a " +
+            "join fetch a.plano " +
+            "where a.id = :id")
+    Optional<Assinatura> buscarComPlanoPorId(Integer id);
+
+    @Query("select a from Assinatura a " +
+            "join fetch a.plano " +
             "left join fetch a.cartoes " +
             "where a.id = :id")
     Optional<Assinatura> buscarComCartoes(Integer id);
+
+    // Em Jakarta Data as operacoes nunca sao cascateadas (a sessao e stateless),
+    // entao os cartoes precisam ser removidos explicitamente.
+    @Query("delete from CartaoCredito c where c.assinatura.id = :assinaturaId")
+    void removerCartoesDaAssinatura(Integer assinaturaId);
 }
