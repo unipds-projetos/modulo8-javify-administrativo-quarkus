@@ -1,7 +1,6 @@
---liquibase formatted sql
-
---changeset javify:5 labels:seed
---comment Inclui os dados iniciais que trabalhamos nas aulas de fundamentos
+-- Dados iniciais das aulas de fundamentos.
+-- SQL puro: os metadados do changeset ficam no v5-insere-dados-restantes.xml,
+-- que referencia este arquivo com <sqlFile>.
 
 INSERT INTO plano (nome, preco, possui_propagandas, limite_membros, modo_offline, descricao)
 VALUES
@@ -90,11 +89,3 @@ INSERT INTO cartao_credito (assinatura_id, nome_titular, ultimos_quatro_digitos,
 (8,  'Fernanda Lima',    '0123', 'tok_gtw_8h7g6f5e4d3c2b1a', '2029-02-28'),
 (9,  'Marcos Pereira',   '4567', 'tok_gtw_9i8h7g6f5e4d3c2b', '2026-06-30'),
 (10, 'Juliana Souza',    '8901', 'tok_gtw_2b3c4d5e6f7g8h9i', '2027-10-31');
-
---rollback DELETE FROM cartao_credito;
---rollback UPDATE usuario SET assinatura_id = NULL;
---rollback DELETE FROM assinatura;
---rollback DELETE FROM usuario_telefone;
---rollback DELETE FROM usuario;
---rollback DELETE FROM endereco;
---rollback DELETE FROM plano WHERE nome IN ('Family','Student','Duo');
